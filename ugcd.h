@@ -1,20 +1,21 @@
-// Copyright (c) 2007 Inria Lorraine (France). All rights reserved.
-//
-// This file is part of CGAL (www.cgal.org); you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public License as
-// published by the Free Software Foundation; either version 3 of the License,
-// or (at your option) any later version.
-//
-// Licensees holding a valid commercial license may use this file in
-// accordance with the commercial license agreement provided with the software.
-//
-// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-// WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-//
-// $URL$
-// $Id$
-//
-// Author: Luis Peñaranda <luis.penaranda@gmx.com>
+/*
+   Copyright (c) 2017 Luis Peñaranda. All rights reserved.
+
+   This file is part of libmug.
+
+   Libmug is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   Libmug is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with libmug.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef CGAL_RS__UGCD_H
 #define CGAL_RS__UGCD_H
