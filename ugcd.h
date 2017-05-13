@@ -23,10 +23,8 @@
 #include <gmp.h>
 #include "primes.h"
 
-// let's assume that 300 is enough for degree 500 gcds
+/* let's assume that 300 is enough for degree 500 gcds */
 #define LIBMUG_MOD_QTY 300
-
-namespace LIBMUG{
 
 class Ugcd:public Primes{
     public:
@@ -34,7 +32,7 @@ class Ugcd:public Primes{
             mpz_t *A,*B;
             mpz_t lcgcd,cA,cB;
             mpz_ptr m,bound;
-            // dG is initialized to zero only to avoid compiler complaints
+            /* dG is initialized to zero only to avoid compiler complaints */
             int dA,dB,dG=0,maxd,i,maxA,maxB;
             size_t modsize,modalloc;
             std::vector<LIBMUG_PN* > p;
@@ -53,7 +51,7 @@ class Ugcd:public Primes{
                 return 0;
             }
 
-            // initialize the memory
+            /* initialize the memory */
             meminit();
 
             A=(mpz_t*)malloc((1+degA)*sizeof(mpz_t));
@@ -74,11 +72,11 @@ class Ugcd:public Primes{
                 mpz_divexact(B[i],Bnp[i],cB);
             }
 
-            // calculate the gcd of the principal coefficients
+            /* calculate the gcd of the principal coefficients */
             mpz_init(lcgcd);
             mpz_gcd(lcgcd,A[degA],B[degB]);
 
-            // find the limit of modular image computation
+            /* find the limit of modular image computation */
             maxA=degA;
             for(i=0;i<degA;++i)
                 if(mpz_cmpabs(A[i],A[maxA])>0)
@@ -108,7 +106,7 @@ class Ugcd:public Primes{
 
             mA=(LIBMUG_PN*)palloc((1+degA)*sizeof(LIBMUG_PN));
             mB=(LIBMUG_PN*)palloc((1+degB)*sizeof(LIBMUG_PN));
-            maxd=degA;      // we know that degA>=degB
+            maxd=degA;      /* we know that degA>=degB */
             mG=(LIBMUG_PN*)palloc((1+maxd)*sizeof(LIBMUG_PN));
             pr_init();
             mpz_set_ui(m,1);
@@ -124,18 +122,18 @@ class Ugcd:public Primes{
                         dB=pp_from_poly(mB,B,degB);
                         if(dB!=-1)
                             lc=mpz_fdiv_ui(lcgcd,p_prime());
-                        // lc is the image of the principal coefficient
+                        /* lc is the image of the principal coefficient */
                     }
                 }while(dA==-1||dB==-1||!lc
                         ||mpz_divisible_ui_p(A[degA],p_prime())
                         ||mpz_divisible_ui_p(B[degB],p_prime()));
-                // now we calculate the gcd mod p_prime
+                /* now we calculate the gcd mod p_prime */
                 dG=pp_gcd(mG,mA,degA,mB,degB);
                 scaleG=LIBMUG_P_DIV(lc,mG[dG]);
                 mG[dG]=lc;
                 for(i=0;i<dG;++i)
                     mG[i]=p_mul(mG[i],scaleG);
-                if(!dG){        // done, we know that the gcd is constant
+                if(!dG){        /* done, we know that the gcd is constant */
                     mpz_set_ui(gcd[0],1);
                     dG=0;
                     goto cleanandexit;
@@ -148,7 +146,7 @@ class Ugcd:public Primes{
                     mod[0]=p_prime();
                     modsize=1;
                     mG=(LIBMUG_PN*)palloc((1+maxd)*sizeof(LIBMUG_PN));
-                    // TODO: clean the  LIBMUG_PN* that are in p
+                    /* TODO: clean the  LIBMUG_PN* that are in p */
                 }else{
                     if(dG==maxd){
                         LIBMUG_mpz_mul_pn(m,m,p_prime());
@@ -173,7 +171,7 @@ class Ugcd:public Primes{
             LIBMUG_PFREE(mB);
             LIBMUG_PFREE(mG);
             LIBMUG_PFREE(mod);
-            // TODO: clean the LIBMUG_PN* that are in p
+            /* TODO: clean the LIBMUG_PN* that are in p */
             for(i=0;i<=degA;++i)
                 mpz_clear(A[i]);
             for(i=0;i<=degB;++i)
@@ -189,8 +187,6 @@ class Ugcd:public Primes{
             return dG;
         };
 
-}; // class Ugcd
+};
 
-} // namespace LIBMUG
-
-#endif  // UGCD_H
+#endif /* UGCD_H */

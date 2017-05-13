@@ -22,14 +22,12 @@
 
 #include "inverse.h"
 
-namespace LIBMUG{
-
-// LIBMUG_PN size is 32 bits, the sizes of LIBMUG_LPN and LIBMUG_SPN must be,
-// at least, as twice as the size of LIBMUG_PN
+/* LIBMUG_PN size is 32 bits, the sizes of LIBMUG_LPN and LIBMUG_SPN must be,
+   at least, as twice as the size of LIBMUG_PN */
 #define LIBMUG_PN_BITS  32
-#define LIBMUG_PN       LIBMUG_U32  // unsigned
-#define LIBMUG_LPN      LIBMUG_U64  // unsigned long long
-#define LIBMUG_SPN      LIBMUG_S64  // long long
+#define LIBMUG_PN       LIBMUG_U32  /* unsigned */
+#define LIBMUG_LPN      LIBMUG_U64  /* unsigned long long */
+#define LIBMUG_SPN      LIBMUG_S64  /* long long */
 
 #define LIBMUG_mpz_set_pn(A,PN)     mpz_set_ui(A,(unsigned long)(PN))
 #define LIBMUG_mpz_mul_pn(A,B,PN)   mpz_mul_ui(A,B,(unsigned long)(PN))
@@ -61,7 +59,7 @@ LIBMUG_THREAD_ATTR LIBMUG_PN prime; class Prime:public Inverse{
             return (a<b?prime-(b-a):a-b);
         };
 
-        // returns a*b-c*d
+        /* returns a*b-c*d */
         static LIBMUG_PN p_submuls(LIBMUG_PN a,LIBMUG_PN b,LIBMUG_PN c,LIBMUG_PN d){
             LIBMUG_LPN mul;
             LIBMUG_PN pnm1,pnm2;
@@ -81,7 +79,7 @@ LIBMUG_THREAD_ATTR LIBMUG_PN prime; class Prime:public Inverse{
             return (a<prime?a:a%prime);
         };
 
-        // define p_mul(A,B)    ((LIBMUG_PN)(((LIBMUG_LPN)A*B)%p_prime()))
+/*#define p_mul(A,B)    ((LIBMUG_PN)(((LIBMUG_LPN)A*B)%p_prime()))*/
         static LIBMUG_PN p_mul(LIBMUG_PN a,LIBMUG_PN b){
             LIBMUG_LPN c=(LIBMUG_LPN)a*b;
             return (LIBMUG_PN)(c<prime?c:c%prime);
@@ -96,20 +94,20 @@ LIBMUG_THREAD_ATTR LIBMUG_PN prime; class Prime:public Inverse{
             return (LIBMUG_PN)(d<prime?d:d%prime);
         };
 
-        // returns a*conv(b)
+        /* returns a*conv(b) */
         static LIBMUG_PN p_mulc(LIBMUG_PN a,LIBMUG_PN b){
             LIBMUG_LPN temp=(LIBMUG_LPN)a*(b<prime?b:b%prime);
             return (temp<prime?(LIBMUG_PN)temp:(LIBMUG_PN)(temp%prime));
         };
 
-        // returns a*conv(b)+conv(c)
+        /* returns a*conv(b)+conv(c) */
         static LIBMUG_PN p_mulcaddc(LIBMUG_PN a,LIBMUG_PN b,LIBMUG_PN c){
             LIBMUG_LPN temp=(LIBMUG_LPN)a*(b<prime?b:b%prime);
             temp=(temp<prime?temp:temp%prime)+(c<prime?c:c%prime);
             return (temp<prime?(LIBMUG_PN)temp:(LIBMUG_PN)(temp-prime));
         };
 
-        // returns (conv(a)-b)*inv(c)
+        /* returns (conv(a)-b)*inv(c) */
         static LIBMUG_PN p_convsubdiv(LIBMUG_PN a,LIBMUG_PN b,LIBMUG_PN c){
             LIBMUG_SPN inv_c=eea_s(c,prime);
             LIBMUG_PN pninv_c=(inv_c<0?(LIBMUG_PN)(inv_c+prime):(LIBMUG_PN)inv_c);
@@ -119,7 +117,7 @@ LIBMUG_THREAD_ATTR LIBMUG_PN prime; class Prime:public Inverse{
             return (LIBMUG_PN)(mult<prime?mult:mult%prime);
         };
 
-        // vzGG, p. 73
+        /* vzGG, p. 73 */
         static LIBMUG_PN p_pow(LIBMUG_PN a,LIBMUG_PN n){
             LIBMUG_PN b,i;
             i=1<<(LIBMUG_PN_BITS-1);
@@ -139,8 +137,6 @@ LIBMUG_THREAD_ATTR LIBMUG_PN prime; class Prime:public Inverse{
             return p_gcd(b,a%b);
         };
 
-}; // class Prime
+};
 
-} // namespace LIBMUG
-
-#endif  // P_H
+#endif /* P_H */

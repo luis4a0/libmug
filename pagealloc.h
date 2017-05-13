@@ -23,8 +23,6 @@
 #include <cstdlib>
 #include <cstring>
 
-namespace LIBMUG{
-
 #define LIBMUG_PAGESIZE        4194304
 #define LIBMUG_TABLESIZE       2048
 #define LIBMUG_PAGES           8
@@ -36,7 +34,7 @@ struct pinfo{
 };
 
 LIBMUG_THREAD_ATTR void**  pages_startptr;
-LIBMUG_THREAD_ATTR size_t  pages_max;//=LIBMUG_PAGES;
+LIBMUG_THREAD_ATTR size_t  pages_max;/*=LIBMUG_PAGES;*/
 LIBMUG_THREAD_ATTR size_t  pages_allocated;
 LIBMUG_THREAD_ATTR size_t  pages_current;
 
@@ -75,10 +73,10 @@ class Page_alloc{
                 page_remainingbytes=LIBMUG_PAGESIZE;
                 return r;
             }
-            // iso c++ forbids to initialize a static member (pages_max),
-            // so we have to start using pages_max when the amount of
-            // allocated pages reaches the value LIBMUG_PAGES (this is not of
-            // course the cleanest way to do it)
+            /* iso c++ forbids to initialize a static member (pages_max),
+               so we have to start using pages_max when the amount of
+               allocated pages reaches the value LIBMUG_PAGES (this is not of
+               course the cleanest way to do it) */
             if(pages_allocated==LIBMUG_PAGES)
                 pages_max=2*LIBMUG_PAGES;
             else
@@ -96,8 +94,8 @@ class Page_alloc{
             return r;
         };
 
-        // if they ask us to allocate a memory size bigger than the page,
-        // we are lost (we could in that case make a bigger page)
+        /* if they ask us to allocate a memory size bigger than the page,
+           we are lost (we could in that case make a bigger page) */
         static
         void* palloc(size_t size){
             void* r;
@@ -113,7 +111,7 @@ class Page_alloc{
             page_remainingbytes-=size;
             r=page_currentptr;
             page_currentptr=(void*)((LIBMUG_VOIDSCAST)page_currentptr+size);
-            // c++ does not support nodes_allocated[nodes_assigned]={r,s}
+            /* c++ does not support nodes_allocated[nodes_assigned]={r,s} */
             nodes_allocated[nodes_assigned].start=r;
             nodes_allocated[nodes_assigned].size=size;
             ++nodes_assigned;
@@ -136,13 +134,13 @@ class Page_alloc{
         };
 
         #define LIBMUG_PFREE(X)        {}
-        //void LIBMUG_PFREE(void* ptr){
-        //  size_t i=0;
-        //  while(nodes_allocated[i].start!=ptr)
-        //      ++i;
-        //  nodes_allocated[i].start=0;
-        //  return;
-        //};
+        /*void LIBMUG_PFREE(void* ptr){
+          size_t i=0;
+          while(nodes_allocated[i].start!=ptr)
+              ++i;
+          nodes_allocated[i].start=0;
+          return;
+        };*/
 
         static
         void* memclear(){
@@ -161,8 +159,6 @@ class Page_alloc{
             return;
         };
 
-}; // class Page_alloc
+};
 
-} // namespace LIBMUG
-
-#endif  // PAGEALLOC_H
+#endif /* PAGEALLOC_H */

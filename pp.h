@@ -25,8 +25,6 @@
 #include "pagealloc.h"
 #include <cstdio>
 
-namespace LIBMUG{
-
 class Prime_polynomial:public Prime,public Page_alloc{
     protected:
         static
@@ -48,22 +46,22 @@ class Prime_polynomial:public Prime,public Page_alloc{
             return;
         };
 
-        // Knuth 2; m>=n
+        /* Knuth 2; m>=n */
         static
         int pp_pdivrem(LIBMUG_PN *r,LIBMUG_PN *u,int m,LIBMUG_PN *v,int n){
             int k,j;
             for(k=0;k<=m;++k)
                 r[k]=u[k];
-            // division p. 402
-            //for(k=m-n;k>=0;--k)
-            //  for(j=n+k-1;j>=k;--j)
-            //      r[j]=p_sub(r[j],p_mul(qk,v[j-k]));
-            // pseudo-division, p. 407
+            /* division p. 402 */
+            /*for(k=m-n;k>=0;--k)
+              for(j=n+k-1;j>=k;--j)
+                  r[j]=p_sub(r[j],p_mul(qk,v[j-k]));*/
+            /* pseudo-division, p. 407 */
             for(k=m-n;k>=0;--k)
                 for(j=n+k-1;j>=0;--j)
-                    //r[j]=p_sub(
-                    //              p_mul(v[n],r[j]),
-                    //              p_mul(r[n+k],(j<k?0:v[j-k])));
+                    /*r[j]=p_sub(
+                                  p_mul(v[n],r[j]),
+                                  p_mul(r[n+k],(j<k?0:v[j-k])));*/
                     r[j]=p_submuls(v[n],r[j],r[n+k],(j<k?0:v[j-k]));
             --n;
             while(!r[n]&&n)
@@ -83,20 +81,20 @@ class Prime_polynomial:public Prime,public Page_alloc{
             return cont;
         };
 
-        // GCL, page 280; da>=db
+        /* GCL, page 280; da>=db */
         static
         int pp_gcd(LIBMUG_PN *g,LIBMUG_PN *a,int da,LIBMUG_PN *b,int db){
             LIBMUG_PN *r0,*r1,*r2;
             int i,d0,d1,d2;
             d0=da;
             r0=(LIBMUG_PN*)palloc((1+da)*sizeof(LIBMUG_PN));
-            //for(i=0;i<=da;++i)
-            //  r0[i]=a[i];
+            /*for(i=0;i<=da;++i)
+              r0[i]=a[i];*/
             pp_pp(r0,a,da);
             d1=db;
             r1=(LIBMUG_PN*)palloc((1+da)*sizeof(LIBMUG_PN));
-            //for(i=0;i<=db;++i)
-            //  r1[i]=b[i];
+            /*for(i=0;i<=db;++i)
+              r1[i]=b[i];*/
             pp_pp(r1,b,db);
             r2=(LIBMUG_PN*)palloc((1+da)*sizeof(LIBMUG_PN));
             d2=pp_pdivrem(r2,r0,d0,r1,d1);
@@ -104,17 +102,17 @@ class Prime_polynomial:public Prime,public Page_alloc{
                 for(i=0;i<=d1;++i)
                     r0[i]=r1[i];
                 d0=d1;
-                //for(i=0;i<=d2;++i)
-                //  r1[i]=r2[i];
+                /*for(i=0;i<=d2;++i)
+                  r1[i]=r2[i];*/
             pp_pp(r1,r2,d2);
             d1=d2;
             d2=pp_pdivrem(r2,r0,d0,r1,d1);
             }
             if(!r2[0]){
-                //LIBMUG_PN inv=p_inv(r1[d1]);
-                //g[d1]=1;
-                //for(i=0;i<d1;++i)
-                //    g[i]=p_mul(inv,r1[i]);
+                /*LIBMUG_PN inv=p_inv(r1[d1]);
+                g[d1]=1;
+                for(i=0;i<d1;++i)
+                    g[i]=p_mul(inv,r1[i]);*/
                 for(i=0;i<=d1;++i)
                     g[i]=r1[i];
             }else{
@@ -127,8 +125,6 @@ class Prime_polynomial:public Prime,public Page_alloc{
             return d1;
         };
 
-}; // class Prime_polynomial
+};
 
-} // namespace LIBMUG
-
-#endif  // PP_H
+#endif /* PP_H */

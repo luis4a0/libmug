@@ -1,0 +1,11 @@
+Todo items, ordered by importance (first is most important).
+
+-Make the code pure C.
+-Fast chinese lifting.
+-Precompute moduli.
+-Other moduli, currently we use 31-bit modules.
+-Make thread-safe.
+-Other types of coefficients.
+-Other algorithms related to GCD (square-free part and factorization).
+-Compile with MSVC.
+-Interfaces to other languages.
