@@ -17,51 +17,50 @@
    along with libmug.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CGAL_RS__PAGEALLOC_H
-#define CGAL_RS__PAGEALLOC_H
+#ifndef PAGEALLOC_H
+#define PAGEALLOC_H
 
 #include <cstdlib>
 #include <cstring>
 
-namespace CGAL{
-namespace RS_MGCD{
+namespace LIBMUG{
 
-#define CGALRS_PAGESIZE        4194304
-#define CGALRS_TABLESIZE       2048
-#define CGALRS_PAGES           8
-#define CGALRS_VOIDSCAST       unsigned long
+#define LIBMUG_PAGESIZE        4194304
+#define LIBMUG_TABLESIZE       2048
+#define LIBMUG_PAGES           8
+#define LIBMUG_VOIDSCAST       unsigned long
 
 struct pinfo{
     void *start;
     size_t size;
 };
 
-CGALRS_THREAD_ATTR void**  pages_startptr;
-CGALRS_THREAD_ATTR size_t  pages_max;//=CGALRS_PAGES;
-CGALRS_THREAD_ATTR size_t  pages_allocated;
-CGALRS_THREAD_ATTR size_t  pages_current;
+LIBMUG_THREAD_ATTR void**  pages_startptr;
+LIBMUG_THREAD_ATTR size_t  pages_max;//=LIBMUG_PAGES;
+LIBMUG_THREAD_ATTR size_t  pages_allocated;
+LIBMUG_THREAD_ATTR size_t  pages_current;
 
-CGALRS_THREAD_ATTR size_t  page_remainingbytes;
-CGALRS_THREAD_ATTR void*   page_currentptr;
+LIBMUG_THREAD_ATTR size_t  page_remainingbytes;
+LIBMUG_THREAD_ATTR void*   page_currentptr;
 
-CGALRS_THREAD_ATTR struct pinfo    *nodes_allocated;
-CGALRS_THREAD_ATTR size_t          nodes_total;
-CGALRS_THREAD_ATTR size_t          nodes_assigned;
+LIBMUG_THREAD_ATTR struct pinfo    *nodes_allocated;
+LIBMUG_THREAD_ATTR size_t          nodes_total;
+LIBMUG_THREAD_ATTR size_t          nodes_assigned;
 
 class Page_alloc{
 
     protected:
         static
         void* meminit(){
-            pages_startptr=(void**)malloc(CGALRS_PAGES*sizeof(void*));
-            pages_startptr[0]=malloc(CGALRS_PAGESIZE);
+            pages_startptr=(void**)malloc(LIBMUG_PAGES*sizeof(void*));
+            pages_startptr[0]=malloc(LIBMUG_PAGESIZE);
             pages_allocated=1;
             pages_current=0;
-            page_remainingbytes=CGALRS_PAGESIZE;
+            page_remainingbytes=LIBMUG_PAGESIZE;
             page_currentptr=pages_startptr[0];
-            nodes_total=CGALRS_TABLESIZE;
+            nodes_total=LIBMUG_TABLESIZE;
             nodes_allocated=
-                (struct pinfo*)malloc(CGALRS_TABLESIZE*sizeof(struct pinfo));
+                (struct pinfo*)malloc(LIBMUG_TABLESIZE*sizeof(struct pinfo));
             nodes_assigned=0;
             return page_currentptr;
         };
@@ -73,15 +72,15 @@ class Page_alloc{
                 ++pages_current;
                 r=pages_startptr[pages_current];
                 page_currentptr=r;
-                page_remainingbytes=CGALRS_PAGESIZE;
+                page_remainingbytes=LIBMUG_PAGESIZE;
                 return r;
             }
             // iso c++ forbids to initialize a static member (pages_max),
             // so we have to start using pages_max when the amount of
-            // allocated pages reaches the value CGALRS_PAGES (this is not of
+            // allocated pages reaches the value LIBMUG_PAGES (this is not of
             // course the cleanest way to do it)
-            if(pages_allocated==CGALRS_PAGES)
-                pages_max=2*CGALRS_PAGES;
+            if(pages_allocated==LIBMUG_PAGES)
+                pages_max=2*LIBMUG_PAGES;
             else
                 pages_max=0;
             if(pages_allocated==pages_max){
@@ -89,11 +88,11 @@ class Page_alloc{
                 pages_startptr=
                     (void**)realloc(pages_startptr,pages_max*sizeof(void*));
             }
-            r=malloc(CGALRS_PAGESIZE);
+            r=malloc(LIBMUG_PAGESIZE);
             pages_startptr[pages_allocated]=r;
             page_currentptr=r;
             ++pages_allocated;
-            page_remainingbytes=CGALRS_PAGESIZE;
+            page_remainingbytes=LIBMUG_PAGESIZE;
             return r;
         };
 
@@ -113,7 +112,7 @@ class Page_alloc{
             }
             page_remainingbytes-=size;
             r=page_currentptr;
-            page_currentptr=(void*)((CGALRS_VOIDSCAST)page_currentptr+size);
+            page_currentptr=(void*)((LIBMUG_VOIDSCAST)page_currentptr+size);
             // c++ does not support nodes_allocated[nodes_assigned]={r,s}
             nodes_allocated[nodes_assigned].start=r;
             nodes_allocated[nodes_assigned].size=size;
@@ -136,8 +135,8 @@ class Page_alloc{
             return ptr;
         };
 
-        #define CGALRS_PFREE(X)        {}
-        //void CGALRS_PFREE(void* ptr){
+        #define LIBMUG_PFREE(X)        {}
+        //void LIBMUG_PFREE(void* ptr){
         //  size_t i=0;
         //  while(nodes_allocated[i].start!=ptr)
         //      ++i;
@@ -148,7 +147,7 @@ class Page_alloc{
         static
         void* memclear(){
             pages_current=0;
-            page_remainingbytes=CGALRS_PAGESIZE;
+            page_remainingbytes=LIBMUG_PAGESIZE;
             page_currentptr=pages_startptr[0];
             nodes_assigned=0;
             return page_currentptr;
@@ -164,7 +163,6 @@ class Page_alloc{
 
 }; // class Page_alloc
 
-} // namespace RS_MGCD
-} // namespace CGAL
+} // namespace LIBMUG
 
-#endif  // CGAL_RS__PAGEALLOC_H
+#endif  // PAGEALLOC_H

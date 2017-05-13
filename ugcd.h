@@ -17,17 +17,16 @@
    along with libmug.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CGAL_RS__UGCD_H
-#define CGAL_RS__UGCD_H
+#ifndef UGCD_H
+#define UGCD_H
 
 #include <gmp.h>
 #include "primes.h"
 
 // let's assume that 300 is enough for degree 500 gcds
-#define CGALRS_MOD_QTY 300
+#define LIBMUG_MOD_QTY 300
 
-namespace CGAL{
-namespace RS_MGCD{
+namespace LIBMUG{
 
 class Ugcd:public Primes{
     public:
@@ -38,9 +37,9 @@ class Ugcd:public Primes{
             // dG is initialized to zero only to avoid compiler complaints
             int dA,dB,dG=0,maxd,i,maxA,maxB;
             size_t modsize,modalloc;
-            std::vector<CGALRS_PN* > p;
-            CGALRS_PN *mA,*mB,*mG,*mod;
-            CGALRS_PN lc=0,scaleG;
+            std::vector<LIBMUG_PN* > p;
+            LIBMUG_PN *mA,*mB,*mG,*mod;
+            LIBMUG_PN lc=0,scaleG;
 
             if(degB>degA){
                 if(!degA){
@@ -107,14 +106,14 @@ class Ugcd:public Primes{
             mpz_mul_2exp(bound,bound,1);
             mpz_setbit(bound,0);
 
-            mA=(CGALRS_PN*)palloc((1+degA)*sizeof(CGALRS_PN));
-            mB=(CGALRS_PN*)palloc((1+degB)*sizeof(CGALRS_PN));
+            mA=(LIBMUG_PN*)palloc((1+degA)*sizeof(LIBMUG_PN));
+            mB=(LIBMUG_PN*)palloc((1+degB)*sizeof(LIBMUG_PN));
             maxd=degA;      // we know that degA>=degB
-            mG=(CGALRS_PN*)palloc((1+maxd)*sizeof(CGALRS_PN));
+            mG=(LIBMUG_PN*)palloc((1+maxd)*sizeof(LIBMUG_PN));
             pr_init();
             mpz_set_ui(m,1);
-            mod=(CGALRS_PN*)palloc(CGALRS_MOD_QTY*sizeof(CGALRS_PN));
-            modalloc=CGALRS_MOD_QTY;
+            mod=(LIBMUG_PN*)palloc(LIBMUG_MOD_QTY*sizeof(LIBMUG_PN));
+            modalloc=LIBMUG_MOD_QTY;
             modsize=0;
 
             while(mpz_cmp(m,bound)<=0){
@@ -132,7 +131,7 @@ class Ugcd:public Primes{
                         ||mpz_divisible_ui_p(B[degB],p_prime()));
                 // now we calculate the gcd mod p_prime
                 dG=pp_gcd(mG,mA,degA,mB,degB);
-                scaleG=CGALRS_P_DIV(lc,mG[dG]);
+                scaleG=LIBMUG_P_DIV(lc,mG[dG]);
                 mG[dG]=lc;
                 for(i=0;i<dG;++i)
                     mG[i]=p_mul(mG[i],scaleG);
@@ -142,26 +141,26 @@ class Ugcd:public Primes{
                     goto cleanandexit;
                 }
                 if(dG<maxd){
-                    CGALRS_mpz_set_pn(m,p_prime());
+                    LIBMUG_mpz_set_pn(m,p_prime());
                     maxd=dG;
                     p.clear();
                     p.push_back(mG);
                     mod[0]=p_prime();
                     modsize=1;
-                    mG=(CGALRS_PN*)palloc((1+maxd)*sizeof(CGALRS_PN));
-                    // TODO: clean the  CGALRS_PN* that are in p
+                    mG=(LIBMUG_PN*)palloc((1+maxd)*sizeof(LIBMUG_PN));
+                    // TODO: clean the  LIBMUG_PN* that are in p
                 }else{
                     if(dG==maxd){
-                        CGALRS_mpz_mul_pn(m,m,p_prime());
+                        LIBMUG_mpz_mul_pn(m,m,p_prime());
                         if(modsize==modalloc){
                             modalloc*=2;
-                            mod=(CGALRS_PN*)
-                                prealloc(mod,modalloc*sizeof(CGALRS_PN));
+                            mod=(LIBMUG_PN*)
+                                prealloc(mod,modalloc*sizeof(LIBMUG_PN));
                         }
                         mod[modsize]=p_prime();
                         ++modsize;
                         p.push_back(mG);
-                        mG=(CGALRS_PN*)palloc((1+maxd)*sizeof(CGALRS_PN));
+                        mG=(LIBMUG_PN*)palloc((1+maxd)*sizeof(LIBMUG_PN));
                     }
                 }
             }
@@ -170,11 +169,11 @@ class Ugcd:public Primes{
 
             cleanandexit:
 
-            CGALRS_PFREE(mA);
-            CGALRS_PFREE(mB);
-            CGALRS_PFREE(mG);
-            CGALRS_PFREE(mod);
-            // TODO: clean the CGALRS_PN* that are in p
+            LIBMUG_PFREE(mA);
+            LIBMUG_PFREE(mB);
+            LIBMUG_PFREE(mG);
+            LIBMUG_PFREE(mod);
+            // TODO: clean the LIBMUG_PN* that are in p
             for(i=0;i<=degA;++i)
                 mpz_clear(A[i]);
             for(i=0;i<=degB;++i)
@@ -192,7 +191,6 @@ class Ugcd:public Primes{
 
 }; // class Ugcd
 
-} // namespace RS_MGCD
-} // namespace CGAL
+} // namespace LIBMUG
 
-#endif  // CGAL_RS__UGCD_H
+#endif  // UGCD_H
