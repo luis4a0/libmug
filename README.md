@@ -1,13 +1,13 @@
-#Libmug
+# Libmug
 
-##A library for modular univariate GCD computations.
+## A library for modular univariate GCD computations.
 
-The original code was bundled with CGAL 4.3. For 4.4, I removed it because
-I rewrote the algebraic kernel that used it. I release it because maybe it
-is useful for someone. If you are interested, don't hesitate in contacting
-me.
+The original code was bundled with CGAL, between versions 3.6 (March, 2010)
+and 4.3 (October, 2013). For CGAL 4.4, I removed it because I rewrote the
+algebraic kernel that used it. I release it because I hope the code is useful
+for someone. If you are interested, don't hesitate in contacting me.
 
-##Algorithm overview
+## Algorithm overview
 
 The implementation the well-known Euclidean algorithm to compute GCD.
 However, big numbers make the size of the coefficients explode. We use then
@@ -15,7 +15,7 @@ modular arithmetic. We compute images of the input polynomials modulo some
 primes and compute then images of these modular polynomials. Then, we use
 Chinese lifting to recover the result.
 
-##Bibliography
+## Bibliography
 
 * von Zur Gathen and Gerhard, *Modern Computer Algebra*, 2nd edition,
 Cambridge, 2003.
