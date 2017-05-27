@@ -20,11 +20,11 @@
 #ifndef UGCD_H
 #define UGCD_H
 
+#include <stdio.h>
 #include <gmp.h>
 
-/* let's assume that 300 is enough for degree 500 gcds */
-#define LIBMUG_MOD_QTY 300
+int mug_ugcd(mpz_t*,mpz_t*,int,mpz_t*,int);
 
-int ugcd(mpz_t*,mpz_t*,int,mpz_t*,int);
+void mug_pretty_print_polynomial(FILE*,mpz_t*,int);
 
 #endif /* UGCD_H */

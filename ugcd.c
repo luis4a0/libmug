@@ -17,7 +17,7 @@
    along with libmug.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "ugcd.h"
+#include "mug.h"
 #include "pp.h"
 #include "primes.h"
 #include "pagealloc.h"
@@ -32,7 +32,7 @@
 /* let's assume that 300 is enough for degree 500 gcds */
 #define LIBMUG_MOD_QTY 300
 
-int ugcd (mpz_t *gcd,mpz_t *Anp,int degA,mpz_t *Bnp,int degB){
+int mug_ugcd(mpz_t *gcd,mpz_t *Anp,int degA,mpz_t *Bnp,int degB){
     mpz_t *A,*B;
     mpz_t lcgcd,cA,cB;
     mpz_ptr m,bound;
@@ -54,7 +54,7 @@ int ugcd (mpz_t *gcd,mpz_t *Anp,int degA,mpz_t *Bnp,int degB){
             mpz_set_ui(gcd[0],1);
             return 0;
         }else
-            return ugcd(gcd,Bnp,degB,Anp,degA);
+            return mug_ugcd(gcd,Bnp,degB,Anp,degA);
     }
     if(!degB){
         mpz_set_ui(gcd[0],1);
