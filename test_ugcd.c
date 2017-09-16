@@ -1,6 +1,3 @@
-/* define it here to avoid latter complaints */
-#define LIBMUG_THREAD_ATTR
-
 #include <gmp.h>
 #include "mug.h"
 
@@ -33,5 +30,13 @@ int main(){
         fprintf(stderr,"\n");
         mug_pretty_print_polynomial(stderr,gcd,deg_gcd);
         fprintf(stderr,"\n");
+
+        for(i=0;i<3;++i)
+                mpz_clear(p1[i]);
+        for(i=0;i<2;++i){
+                mpz_clear(p2[i]);
+                mpz_clear(gcd[i]);
+        }
+
         return 0;
 }

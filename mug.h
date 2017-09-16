@@ -17,8 +17,8 @@
    along with libmug.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UGCD_H
-#define UGCD_H
+#ifndef MUG_H
+#define MUG_H
 
 #include <stdio.h>
 #include <gmp.h>
@@ -27,4 +27,6 @@ int mug_ugcd(mpz_t*,mpz_t*,int,mpz_t*,int);
 
 void mug_pretty_print_polynomial(FILE*,mpz_t*,int);
 
-#endif /* UGCD_H */
+int mug_ediv(mpz_t*,mpz_t*,int,mpz_t*,int);
+
+#endif /* MUG_H */
