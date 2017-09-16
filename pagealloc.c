@@ -127,5 +127,7 @@ void memrelease(){
     size_t i;
     for(i=0;i<pages_allocated;++i)
         free(pages_startptr[i]);
+    free(pages_startptr);
+    free(nodes_allocated);
     return;
 }
