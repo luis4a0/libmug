@@ -34,7 +34,7 @@ void mug_pretty_print_polynomial(FILE *stream,mpz_t* p,int deg_p){
                                 if(i!=deg_p)
                                         fprintf(stream,"+");
                         }else{
-                                if(!mpz_cmp_si(p[i],-1)){
+                                if(!mpz_cmp_si(p[i],-1)&&i>0){
                                         fprintf(stream,"-");
                                 }else{
                                         mpz_out_str(stream,10,p[i]);
