@@ -47,7 +47,6 @@ int mug_ediv(mpz_t *q,mpz_t *f,int degf,mpz_t *g,int degg){
         int allocq=1+degf-degg; /* allocq is one more than the degree of q. */
         for(j=0;j<allocq;++j)
                 mpz_init(q[j]);
-        /* lcg is the leading coefficient of g, that is, g[degg]. */
         if(!degg){
                 for(i=0;i<=degf;++i)
                         mpz_divexact(q[i],f[i],g[0]);
@@ -58,7 +57,7 @@ int mug_ediv(mpz_t *q,mpz_t *f,int degf,mpz_t *g,int degg){
            initialized as f(x) and at each iteration, r(x)=r(x)-q[i]*g(x). */
         /* TODO: optimize this, avoiding to compute all the coefficients
            of r. */
-        r=(mpz_t*)malloc(degf*sizeof(mpz_t));
+        r=(mpz_t*)malloc((degf+1)*sizeof(mpz_t));
         for(i=0;i<=degf;++i)
                 mpz_init_set(r[i],f[i]);
         degr=degf;
