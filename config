@@ -1,7 +1,7 @@
 LIBNAME=mug
 FULLNAME=lib${LIBNAME}
 CC=gcc
-CFLAGS=-ansi -O3 -Wall -pedantic
+CFLAGS=-ansi -O3 -Wextra -pedantic
 LIBS=-lm -lgmp
 PREFIX=.
 

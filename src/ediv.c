@@ -26,7 +26,7 @@
    coefficients of s are left untouched.
    Preconditions, degs>=degg+shift, shift>=0 and s[degs]!=0. */
 int mug_fms(mpz_t *s,int degs,mpz_t *g,int degg,mpz_ptr k,int shift,int start){
-        size_t i;
+        int i;
         for(i=start;i<=degg+shift;++i)
                 mpz_submul(s[i],g[i-shift],k);
         if(degg+shift==degs)
