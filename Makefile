@@ -1,18 +1,31 @@
-CC=gcc
-CCPARAMS=-ansi -O3 -Wall -pedantic -DLIBMUG_THREAD_ATTR=" "
-OBJECTS=crt.o inverse.o pagealloc.o p.o pp.o primes.o ugcd.o io.o ediv.o
-LIBS=-lm -lgmp
+include config
 
-%.o: %.c
-	${CC} ${CCPARAMS} -c $< -o $@
+ABS_PREFIX=$(abspath ${PREFIX})
 
-test_ugcd: test_ugcd.c ${OBJECTS}
-	${CC} ${CCPARAMS} test_ugcd.c ${OBJECTS} ${LIBS} -o test_ugcd
+.PHONY: all static dynamic test
 
-test_ediv: test_ediv.c ${OBJECTS}
-	${CC} ${CCPARAMS} test_ediv.c ${OBJECTS} ${LIBS} -o test_ediv
+all: static
 
-test: test_ugcd test_ediv
+static:
+	cd src && \
+	make BUILD_TYPE=static ABS_PREFIX=${ABS_PREFIX} ${FULLNAME}.a && \
+	cd ..
+
+dynamic:
+	cd src && \
+	make BUILD_TYPE=dynamic ABS_PREFIX=${ABS_PREFIX} ${FULLNAME}.so && \
+	cd ..
+
+test:
+	cd test && \
+	make BUILD_TYPE=static ABS_PREFIX=${ABS_PREFIX} && \
+	cd ..
 
 clean:
-	rm -f *.o test_ugcd test_ediv
+	cd src && make clean && cd ..
+	cd test && make clean && cd ..
+
+distclean:
+	cd src && make clean && cd ..
+	cd test && make clean && cd ..
+	rm -rf include/ lib/

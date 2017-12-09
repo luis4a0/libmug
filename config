@@ -1,0 +1,10 @@
+LIBNAME=mug
+FULLNAME=lib${LIBNAME}
+CC=gcc
+CFLAGS=-ansi -O3 -Wall -pedantic
+LIBS=-lm -lgmp
+PREFIX=.
+
+# Parameters for dynamic building.
+SOMAJOR=1
+SOMINOR=0
