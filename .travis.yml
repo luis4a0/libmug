@@ -3,7 +3,7 @@ compiler: gcc
 dist: trusty
 script:
 - make
-- make tests
+- make test
 addons:
   apt:
     packages:
