@@ -9,7 +9,7 @@
 int main(){
         size_t i;
         int deg_quotient;
-        int alloc_quotient=3;
+        size_t alloc_quotient=3;
         mpz_t p1[6],p2[4];
         mpz_t* quotient=(mpz_t*)malloc(alloc_quotient*sizeof(mpz_t));
         /* Initialize p1. */
