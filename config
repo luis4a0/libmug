@@ -1,6 +1,10 @@
 LIBNAME=mug
 FULLNAME=lib${LIBNAME}
+
+ifndef CC
 CC=gcc
+endif
+
 CFLAGS=-ansi -O3 -Wextra -pedantic
 LIBS=-lm -lgmp
 PREFIX=.

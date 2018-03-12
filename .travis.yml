@@ -1,10 +1,37 @@
 language: c
-compiler: gcc
-dist: trusty
+
+matrix:
+  include:
+    # Test GCC on GNU/Linux.
+    - os: linux
+      dist: trusty
+      addons:
+        apt:
+          packages:
+            - libgmp-dev
+      env:
+        - MATRIX_EVAL="CC=gcc"
+    # Test Clang on GNU/Linux.
+    - os: linux
+      dist: trusty
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - libgmp-dev
+      env:
+        - MATRIX_EVAL="CC=clang-5.0"
+    # Test GCC on OS/X.
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew install gcc && CC=gcc-7"
+
+before_install:
+    - eval "${MATRIX_EVAL}"
+
 script:
 - make
 - make test
-addons:
-  apt:
-    packages:
-      - libgmp-dev
