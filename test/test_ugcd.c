@@ -30,7 +30,12 @@ int main(){
         fprintf(stderr,"\n");
         mug_pretty_print_polynomial(stderr,gcd,deg_gcd);
         fprintf(stderr,"\n");
-
+        /* Return -1 if the result is incorrect. */
+        if(1!=deg_gcd||mpz_cmp_ui(gcd[0],2)||mpz_cmp_ui(gcd[1],1)){
+                fprintf(stderr,"Fail!\n");
+                return -1;
+        }
+        /* Clean everything. */
         for(i=0;i<3;++i)
                 mpz_clear(p1[i]);
         for(i=0;i<2;++i){

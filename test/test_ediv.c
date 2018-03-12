@@ -41,6 +41,15 @@ int main(){
         fprintf(stdout,"\nquotient=");
         mug_pretty_print_polynomial(stdout,quotient,deg_quotient);
         fprintf(stdout,"\n");
+        /* Return -1 if the result is incorrect. */
+        if(2!=deg_quotient||
+           mpz_cmp_si(quotient[0],-11)||
+           mpz_cmp_si(quotient[1],-7)||
+           mpz_cmp_ui(quotient[2],5)){
+                fprintf(stderr,"Fail!\n");
+                return -1;
+        }
+        /* Clean everything. */
         for(i=0;i<6;++i)
                 mpz_clear(p1[i]);
         for(i=0;i<4;++i)
@@ -48,5 +57,6 @@ int main(){
         for(i=0;i<alloc_quotient;++i)
                 mpz_clear(quotient[i]);
         free(quotient);
+
         return 0;
 }

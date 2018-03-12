@@ -38,3 +38,11 @@ before_install:
 script:
 - make
 - make test
+- cd test
+- ./test_ugcd
+- ./test_ediv
+
+notifications:
+  email:
+    - on_success: never
+    - on_failure: always
