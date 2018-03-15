@@ -17,9 +17,8 @@ Chinese lifting to recover the result.
 
 ## Compiling and testing
 
-[![Build Status]
- (https://travis-ci.org/luis4a0/libmug.svg?branch=master)]
-(https://travis-ci.org/luis4a0/libmug)
+[![Build Status](https://travis-ci.org/luis4a0/libmug.svg?branch=master)
+](https://travis-ci.org/luis4a0/libmug)
 
 You can compile using GNU make. Edit makefile and config to suit your needs.
 
