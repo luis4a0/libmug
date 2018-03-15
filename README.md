@@ -15,6 +15,19 @@ modular arithmetic. We compute images of the input polynomials modulo some
 primes and compute then images of these modular polynomials. Then, we use
 Chinese lifting to recover the result.
 
+## Compiling and testing
+
+[![Build Status]
+ (https://travis-ci.org/luis4a0/libmug.svg?branch=master)]
+(https://travis-ci.org/luis4a0/libmug)
+
+You can compile using GNU make. Edit makefile and config to suit your needs.
+
+The code is tested automatically via [Travis CI](https://travis-ci.org) using
+GCC and Clang, both under GNU/Linux and Mac OS. Tests are triggered when a new
+commit is pushed. The code should also compile on MSVC, although I did not
+test it.
+
 ## Bibliography
 
 * von Zur Gathen and Gerhard, *Modern Computer Algebra*, 2nd edition,
