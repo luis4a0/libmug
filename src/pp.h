@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2017 Luis Peñaranda. All rights reserved.
+   Copyright (c) 2017,2018 Luis Peñaranda. All rights reserved.
 
    This file is part of libmug.
 
@@ -17,6 +17,8 @@
    along with libmug.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Interface for polynomials over Zn */
+
 #ifndef PP_H
 #define PP_H
 
@@ -24,16 +26,26 @@
 #include <stdio.h>
 #include <gmp.h>
 
+/* Given a polynomial over Z, compute its image over Zn. */
 int pp_from_poly(LIBMUG_PN*,mpz_t*,int);
 
+/* Print a polynomial over Zn to the given file descriptor. */
 void pp_out_str(FILE*,LIBMUG_PN*,int);
 
-/* The first degree must be greater or equal to the second. */
+/* Compute a division with remainder over Zn. The first degree must be
+ * greater or equal to the second. */
 int pp_pdivrem(LIBMUG_PN*,LIBMUG_PN*,int,LIBMUG_PN*,int);
 
+/* Computes the primitive part of a polynomial over Zn. Maybe at this point
+ * http://www.risc.jku.at/education/courses/ws2011/ca/3-gcd.pdf is a good
+ * reading. */
 LIBMUG_PN pp_pp(LIBMUG_PN*,LIBMUG_PN*,int);
 
-/* The first degree must be greater or equal to the second. */
+/* Compute the GCD of two polynomials over Zn. The first degree must be
+ * greater or equal to the second. */
 int pp_gcd(LIBMUG_PN*,LIBMUG_PN*,int,LIBMUG_PN*,int);
+
+/* Computes the derivative of a polynomial over Zn. */
+void pp_deriv(LIBMUG_PN*,LIBMUG_PN*,int);
 
 #endif /* PP_H */

@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2017 Luis Peñaranda. All rights reserved.
+   Copyright (c) 2017,2018 Luis Peñaranda. All rights reserved.
 
    This file is part of libmug.
 
@@ -63,6 +63,7 @@ int pp_pdivrem(LIBMUG_PN *r,LIBMUG_PN *u,int m,LIBMUG_PN *v,int n){
 LIBMUG_PN pp_pp(LIBMUG_PN *pp,LIBMUG_PN *p,int dp){
     int i;
     LIBMUG_PN inv,cont=p[dp];
+    /* cont is the content of the polynomial. */
     for(i=0;i<dp;++i)
         cont=p_gcd(cont,p[i]);
     inv=p_inv(cont);
@@ -113,3 +114,14 @@ int pp_gcd(LIBMUG_PN *g,LIBMUG_PN *a,int da,LIBMUG_PN *b,int db){
     LIBMUG_PFREE(r2);
     return d1;
 }
+
+void pp_deriv(LIBMUG_PN *deriv,LIBMUG_PN *p,int deg){
+    int i;
+    deriv=(LIBMUG_PN*)palloc(deg*sizeof(LIBMUG_PN));
+    for(i=deg;i;--i)
+        deriv[i-1]=p_mul(i,p[i]);
+    return;
+}
+
+/* vim: ts=4 sw=4 expandtab
+*/
